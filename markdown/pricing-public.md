@@ -6,6 +6,15 @@
 
 ---
 
+## Terminology: Do Not Use
+
+| ❌ Do Not Use | ✅ Use Instead | Why |
+|---|---|---|
+| LeMUR | LLM Gateway | LeMUR was deprecated March 31, 2026; LLM Gateway is the current name |
+| Audio Intelligence | Speech Understanding | Audio Intelligence is the deprecated category name; Speech Understanding is current |
+
+---
+
 ## Key Facts (Read First)
 
 - **No contract. No commitment. No minimum spend.** Pay-as-you-go by default. This is a key differentiator vs. competitors like Deepgram and Speechmatics, who require committed contracts for discounted pricing.
@@ -49,7 +58,7 @@
 | Universal-Streaming English (`universal-streaming-english`) | $0.15/hr | English only |
 | Universal-Streaming Multilingual (`universal-streaming-multilingual`) | $0.15/hr | EN, ES, DE, FR, PT, IT |
 | Whisper-Streaming (`whisper-streaming`) | $0.30/hr | 99+ languages |
-| Keyterms Prompting add-on | +$0.04/hr | Whisper-Streaming |
+| Keyterms Prompting add-on | +$0.04/hr | Universal-Streaming English, Universal-Streaming Multilingual |
 | **Speaker Diarization add-on** | **+$0.12/hr** | **U3 Pro Streaming, Universal-Streaming EN, Universal-Streaming ML** |
 
 ---
@@ -165,7 +174,7 @@ These features are **Universal-2 only** for pre-recorded audio. Using them with 
 
 - `auto_chapters` — silently causes stuck jobs / 500 errors on U3 Pro. Use LLM Gateway instead.
 - `summarization` — same behavior as auto_chapters on U3 Pro. Use LLM Gateway instead.
-- `disfluencies` (filler words) — not supported on U3 Pro. Use prompting on U3 Pro as the alternative.
+- `disfluencies` (filler words) — not available as a standalone parameter on U3 Pro; only supported via prompting (e.g., "tag filler words like um and uh"). The `disfluencies` parameter works on Universal-2.
 
 ### 6. Prompting Keyword Gotcha on Universal-3 Pro
 
@@ -190,7 +199,7 @@ The EU region (`api.eu.assemblyai.com`, `streaming.eu.assemblyai.com`) is the **
 | Languages | EN, ES, FR, DE, IT, PT (6) | 99+ languages |
 | Prompting | ✅ | ❌ |
 | Keyterms Prompting | ✅ | ❌ |
-| Medical Mode | ✅ (+$0.15/hr) | ❌ |
+| Medical Mode | ✅ (+$0.15/hr) | ✅ (+$0.15/hr) |
 | Speaker Diarization (standard) | ✅ (+$0.02/hr) | ✅ (+$0.02/hr) |
 | Speaker Diarization (experimental) | ✅ (+$0.065/hr) | ✅ (+$0.065/hr) |
 | Disfluencies / Filler Words | ❌ (use prompting) | ✅ |
@@ -207,9 +216,9 @@ The EU region (`api.eu.assemblyai.com`, `streaming.eu.assemblyai.com`) is the **
 |---|---|---|---|---|
 | `speech_model` value | `u3-rt-pro` | `universal-streaming-english` | `universal-streaming-multilingual` | `whisper-streaming` |
 | Languages | EN, ES, FR, DE, IT, PT | English only | EN, ES, DE, FR, PT, IT | 99+ |
-| Keyterms | ✅ Included | ❌ | ❌ | ✅ (+$0.04/hr) |
+| Keyterms | ✅ Included | ✅ (+$0.04/hr, 100 terms) | ✅ (100 terms) | ❌ |
 | Prompting | ✅ Beta (+$0.05/hr) | ❌ | ❌ | ❌ |
-| Medical Mode | ✅ (+$0.15/hr) | ❌ | ❌ | ❌ |
+| Medical Mode | ✅ (+$0.15/hr) | ✅ (EN only) | ✅ (+$0.15/hr) | ❌ |
 | Speaker Diarization | ✅ (+$0.12/hr) | ✅ (+$0.12/hr) | ✅ (+$0.12/hr) | ✅ (+$0.12/hr) |
 
 ---
@@ -221,14 +230,14 @@ The EU region (`api.eu.assemblyai.com`, `streaming.eu.assemblyai.com`) is the **
 | Free | 5 |
 | Pay-as-you-go (baseline) | 100 |
 | Pay-as-you-go (auto-scaled) | Up to 146+ (scales +10% every 60s at 70%+ utilization) |
-| Enterprise | Custom — contact sales |
+| Enterprise | Unlimited — contact sales |
 
 ---
 
 ## Free Tier Details
 
 - **$50 in free credits** — no credit card required
-- Equivalent to ~238 hours of Universal-2 pre-recorded transcription, or ~111 hours of Universal-3 Pro, or ~333 hours of Universal-Streaming
+- Equivalent to ~333 hours of Universal-2 pre-recorded transcription, or ~238 hours of Universal-3 Pro, or ~111 hours of Universal-3 Pro Streaming
 - Access to all Speech-to-Text and Speech Understanding models
 - Streaming capped at 5 new streams per minute
 - **Free credits do not expire** — they remain available until fully used, even after upgrading your account
@@ -240,7 +249,7 @@ The EU region (`api.eu.assemblyai.com`, `streaming.eu.assemblyai.com`) is the **
 ## Enterprise & Volume
 
 - Volume discounts available **with no commitment required** — contact sales
-- Custom rate limits and concurrency
+- No rate limits and unlimited concurrency
 - Dedicated technical support with SLAs/SLOs
 - HIPAA BAA (sign in minutes, no sales call required)
 - EU Data Residency
