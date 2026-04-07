@@ -6,6 +6,15 @@
 
 ---
 
+## Terminology: Do Not Use
+
+| ❌ Do Not Use | ✅ Use Instead | Why |
+|---|---|---|
+| LeMUR | LLM Gateway | LeMUR was deprecated March 31, 2026; LLM Gateway is the current name |
+| Audio Intelligence | Speech Understanding | Audio Intelligence is the deprecated category name; Speech Understanding is current |
+
+---
+
 ## Key Facts (Read First)
 
 - There are two major categories: **pre-recorded (async)** and **streaming (real-time)**. Different model families cover each.
@@ -14,7 +23,7 @@
 - The correct API parameter is `speech_models` (plural). `speech_model` (singular) is deprecated.
 - Universal-3 Pro has a **6-language limit**. Customers outside EN/ES/DE/FR/IT/PT must use Universal-2 (async) or Whisper-Streaming (streaming).
 - SLAM-1 is a deprecated model — customers on it for medical should migrate to Universal-3 Pro + Medical Mode.
-- `prompt` and `keyterms_prompt` are **mutually exclusive** on Universal-3 Pro — cannot be used in the same request.
+- `prompt` and `keyterms_prompt` are **mutually exclusive on async (pre-recorded) Universal-3 Pro** — cannot be used in the same request. **On streaming (u3-rt-pro), both can be used together** — keyterms are automatically appended to your custom prompt.
 
 ---
 
@@ -26,6 +35,9 @@
 | `nano` | Deprecated | `universal-2` |
 | `slam-1` | Deprecated | `universal-3-pro` (+ Medical Mode for medical use cases) |
 | `speech_model` (singular) | Deprecated parameter | `speech_models` (plural) |
+| Old streaming WebSocket URL (`wss://api.assemblyai.com/v2/realtime/ws`) | **Inactive — do not use** | `wss://streaming.assemblyai.com/v3/ws` |
+
+> **Streaming URL warning:** The old v2 streaming endpoint (`wss://api.assemblyai.com/v2/realtime/ws`) is no longer active. Connections to this URL will fail. Some customers have attempted to test against it and found it unresponsive — always use the current v3 endpoint: `wss://streaming.assemblyai.com/v3/ws`.
 
 SLAM-1's documentation now redirects to Universal-3 Pro. Active customer migration underway (Craft Health Technologies, Sully AI, DaVita, and others).
 
@@ -64,7 +76,7 @@ Universal-3 Pro is AssemblyAI's most accurate ASR model. It uses an LLM-based de
 |---|---|---|
 | General Prompting | ✅ | Up to 1,500 words of natural language instruction |
 | Keyterms Prompting | ✅ | Up to 1,000 terms (max 6 words each); add-on +$0.05/hr |
-| ⚠️ Prompt + Keyterms together | ❌ | **Mutually exclusive** — cannot use both in one request |
+| ⚠️ Prompt + Keyterms together (async) | ❌ | **Mutually exclusive on async** — cannot use both in one pre-recorded request |
 | Temperature control | ✅ | 0.0–1.0 (default 0.0); low non-zero values yield ~5% relative improvement |
 | Medical Mode | ✅ | +$0.15/hr; add `"domain": "medical-v1"`; EN, ES, DE, FR |
 | Speaker Diarization (standard) | ✅ | +$0.02/hr |
@@ -84,8 +96,9 @@ Universal-3 Pro is AssemblyAI's most accurate ASR model. It uses an LLM-based de
 | Code Switching | ✅ | Across all 6 supported languages |
 | Automatic Language Detection | ✅ | 130+ detectable languages; requires 15+ seconds of audio |
 | Multichannel | ✅ | Billed per channel |
-| Audio Event Tagging | ✅ | `[laughter]`, `[music]`, `[applause]`, `[beep]`, `[silence]` |
+| Audio Event Tagging | ✅ | Over 100 different audio tags, including `[laughter]`, `[music]`, `[applause]`, `[beep]`, `[silence]`, and more |
 | Disfluencies (`disfluencies` param) | ❌ | Use prompting instead (e.g., "tag filler words like um and uh") |
+| `remove_audio_tags` | ✅ | Set to `"all"` to strip all `[...]` tags (audio event + speaker tags) from output post-inference. Opt-in, not enabled by default. |
 | Auto Chapters | ❌ | **Causes silent 500 error on U3 Pro.** Use LLM Gateway instead. |
 | Summarization | ❌ | **Same failure behavior as auto_chapters.** Use LLM Gateway instead. |
 | Word Boost (`word_boost`) | ❌ | **Silently falls back to Universal-2** if set alongside U3 Pro. Use keyterms prompting instead. |
@@ -318,7 +331,7 @@ This is the flagship streaming model and the definitive recommendation for all v
 | Code Switching | ✅ (6 langs) | ✅ (99 langs, 2 at a time, one must be EN) | — |
 | Auto Language Detection | ✅ (130+) | ✅ (130+) | — |
 | Multichannel | ✅ | ✅ | — |
-| Audio Event Tagging | ✅ | ❌ | ✅ (different format) |
+| Audio Event Tagging | ✅ (100+ tags) | ❌ | ✅ (different format) |
 | Disfluencies (`disfluencies` param) | ❌ (use prompting) | ✅ | ✅ |
 | Auto Chapters | ❌ (500 error!) | ✅ (+$0.08/hr, deprecated) | — |
 | Summarization | ❌ (500 error!) | ✅ (+$0.03/hr, deprecated) | — |
@@ -335,7 +348,7 @@ This is the flagship streaming model and the definitive recommendation for all v
 | Medical Mode | ✅ (+$0.15/hr) | ✅ (EN only) | ✅ (+$0.15/hr) | ❌ |
 | Speaker Diarization | ✅ (+$0.12/hr) | ✅ (+$0.12/hr) | ✅ (+$0.12/hr) | ✅ (+$0.12/hr) |
 | Auto Language Detection | ✅ (built-in) | ❌ | ✅ (built-in) | ✅ (mandatory) |
-| Audio Event Tagging | ✅ | ❌ | ❌ | ✅ ([Silence], [Music]) |
+| Audio Event Tagging | ✅ (100+ tags) | ❌ | ❌ | ✅ ([Silence], [Music]) |
 | Formatted output | ✅ | ✅ | ✅ (default) | ⚠️ Opt-in via `format_turns=true` |
 | Mid-stream config updates | ✅ | ❌ | ❌ | ❌ |
 
@@ -484,7 +497,7 @@ What kind of audio?
 | `summarization` + Universal-3 Pro | Same as above | Use Universal-2 or LLM Gateway |
 | `word_boost` + Universal-3 Pro | Silent fallback to Universal-2 | Use keyterms prompting instead |
 | `disfluencies` param + Universal-3 Pro | Feature not supported, silently ignored | Use prompting; or switch to Universal-2 |
-| `prompt` + `keyterms_prompt` together | One silently ignored or error | Use one or the other, not both |
+| `prompt` + `keyterms_prompt` together (async) | One silently ignored or error | Mutually exclusive on async — use one or the other. On streaming (u3-rt-pro), both are supported together. |
 | "speaker" in a U3 Pro prompt | Inline speaker labels injected into transcript text | Use `speaker_labels: true` for diarization |
 | `language_code` set on u3-rt-pro streaming | Silently ignored — language is auto-handled | Remove the parameter; rely on auto-detection |
 | Leaving WebSocket open (streaming) | Billed for full session duration including idle time | Close connection immediately when call ends |
@@ -507,7 +520,8 @@ Whisper-Streaming (`whisper-rt` on v3). Supports 99+ languages. No keyterms. Add
 No. It silently causes stuck jobs and 500 errors. Use Universal-2 if you need auto_chapters natively (though it's deprecated), or use LLM Gateway to generate chapters from a U3 Pro transcript.
 
 **Can I use prompt and keyterms_prompt together?**
-No. On Universal-3 Pro, `prompt` and `keyterms_prompt` are mutually exclusive. Use one or the other in a single request.
+**Pre-recorded (async):** No — they are mutually exclusive. Use one or the other in a single request.
+**Streaming (u3-rt-pro):** Yes — both can be used together. The keyterms are automatically appended to your custom prompt.
 
 **Can I mix models with automatic language detection (ALD)?**
 Yes. Use `speech_models: ["universal-3-pro", "universal-2"]` with ALD. The API routes to U3 Pro for its 6 languages and falls back to U2 for all others. The `speech_model_used` field in the response tells you which model was used.
