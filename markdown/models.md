@@ -1,8 +1,10 @@
 # AssemblyAI Models — Authoritative Reference
 
 > **Source:** assemblyai.com/docs, internal Slack support signal (customer success, support, GTM channels)
-> **Last updated:** 2026-04-02
+> **Last updated:** 2026-04-07
 > **Purpose:** Canonical model reference for LLM-assisted support and content. Covers feature support, language support, API identifiers, benchmarks, and use-case recommendations derived from real customer patterns.
+> **Page title:** AssemblyAI Speech-to-Text Models: Universal-3 Pro, Streaming & More
+> **Meta description:** Full reference for AssemblyAI's speech-to-text models. Compare Universal-3 Pro, Universal-2, and all streaming options across features, language support, benchmarks, and real-world use cases.
 
 ---
 
