@@ -1,8 +1,10 @@
 # AssemblyAI Pricing — Authoritative Reference
 
 > **Source:** assemblyai.com/pricing  
-> **Last updated:** 2026-04-02 (expanded from Slack support signal review)  
+> **Last updated:** 2026-04-07  
 > **Purpose:** Canonical pricing reference for LLM-assisted support and content. Use ONLY the prices listed here. Blog posts and older docs may be outdated and prices can be misattributed to the wrong product.
+> **Page title:** AssemblyAI Pricing: Pay-as-You-Go Speech AI
+> **Meta description:** Transparent, pay-as-you-go pricing for AssemblyAI speech-to-text. No contracts or minimums. Covers STT models, streaming, Speech Understanding add-ons, LLM Gateway, and enterprise options.
 
 ---
 
