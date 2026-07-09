@@ -59,7 +59,6 @@
 | Universal-3 Pro Streaming + Medical Mode | +$0.15/hr | Add-on |
 | Universal-Streaming English (`universal-streaming-english`) | $0.15/hr | English only |
 | Universal-Streaming Multilingual (`universal-streaming-multilingual`) | $0.15/hr | EN, ES, DE, FR, PT, IT |
-| Whisper-Streaming (`whisper-streaming`) | $0.30/hr | 99+ languages |
 | Keyterms Prompting add-on | +$0.04/hr | Universal-Streaming English, Universal-Streaming Multilingual |
 | **Speaker Diarization add-on** | **+$0.12/hr** | **U3 Pro Streaming, Universal-Streaming EN, Universal-Streaming ML** |
 
@@ -214,14 +213,14 @@ The EU region (`api.eu.assemblyai.com`, `streaming.eu.assemblyai.com`) is the **
 
 ### Streaming Models
 
-| Feature | U3 Pro Streaming | Universal-Streaming EN | Universal-Streaming ML | Whisper-Streaming |
-|---|---|---|---|---|
-| `speech_model` value | `u3-rt-pro` | `universal-streaming-english` | `universal-streaming-multilingual` | `whisper-streaming` |
-| Languages | EN, ES, FR, DE, IT, PT | English only | EN, ES, DE, FR, PT, IT | 99+ |
-| Keyterms | ✅ Included | ✅ (+$0.04/hr, 100 terms) | ✅ (100 terms) | ❌ |
-| Prompting | ✅ Beta (+$0.05/hr) | ❌ | ❌ | ❌ |
-| Medical Mode | ✅ (+$0.15/hr) | ✅ (EN only) | ✅ (+$0.15/hr) | ❌ |
-| Speaker Diarization | ✅ (+$0.12/hr) | ✅ (+$0.12/hr) | ✅ (+$0.12/hr) | ✅ (+$0.12/hr) |
+| Feature | U3 Pro Streaming | Universal-Streaming EN | Universal-Streaming ML |
+|---|---|---|---|
+| `speech_model` value | `u3-rt-pro` | `universal-streaming-english` | `universal-streaming-multilingual` |
+| Languages | EN, ES, FR, DE, IT, PT | English only | EN, ES, DE, FR, PT, IT |
+| Keyterms | ✅ Included | ✅ (+$0.04/hr, 100 terms) | ✅ (100 terms) |
+| Prompting | ✅ Beta (+$0.05/hr) | ❌ | ❌ |
+| Medical Mode | ✅ (+$0.15/hr) | ✅ (EN only) | ✅ (+$0.15/hr) |
+| Speaker Diarization | ✅ (+$0.12/hr) | ✅ (+$0.12/hr) | ✅ (+$0.12/hr) |
 
 ---
 
