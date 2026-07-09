@@ -23,7 +23,7 @@
 - **Universal-3 Pro** is the recommended default for pre-recorded audio. **Universal-3 Pro Streaming** is the recommended default for real-time voice AI.
 - **Model selection is the single highest-leverage decision** a customer makes. Wrong model = support tickets, silent failures, or loss in a competitive eval.
 - The correct API parameter is `speech_models` (plural). `speech_model` (singular) is deprecated.
-- Universal-3 Pro has a **6-language limit**. Customers outside EN/ES/DE/FR/IT/PT must use Universal-2 (async) or Whisper-Streaming (streaming).
+- Universal-3 Pro has a **6-language limit**. Customers outside EN/ES/DE/FR/IT/PT must use Universal-2 (async).
 - SLAM-1 is a deprecated model — customers on it for medical should migrate to Universal-3 Pro + Medical Mode.
 - `prompt` and `keyterms_prompt` are **mutually exclusive on async (pre-recorded) Universal-3 Pro** — cannot be used in the same request. **On streaming (u3-rt-pro), both can be used together** — keyterms are automatically appended to your custom prompt.
 
@@ -278,31 +278,6 @@ This is the flagship streaming model and the definitive recommendation for all v
 
 ---
 
-### Whisper-Streaming
-
-**API value (v3):** `whisper-rt`  
-**API value (v2/pricing):** `whisper-streaming`
-**Price:** $0.30/hr
-**Best for:** Real-time applications requiring languages outside the 6-language set; interim solution while AssemblyAI builds native streaming models for additional languages
-
-**Supported languages:** 99+ (automatic language detection is mandatory — `language` parameter not supported)
-
-| Feature | Supported | Notes |
-|---|---|---|
-| Keyterms Prompting | ❌ | Not available |
-| General Prompting | ❌ | |
-| Medical Mode | ❌ | |
-| Speaker Diarization | ✅ | +$0.12/hr |
-| Automatic Language Detection | ✅ | Built-in and mandatory; returns `language_code` and `language_confidence` |
-| Audio Event Tagging | ✅ | `[Silence]`, `[Music]` |
-| Formatted output | ⚠️ | **Unformatted by default** — must add `format_turns=true` for punctuation/capitalization |
-
-**Note:** Positioned as the 99-language streaming fallback. Per Ryan Seams (internal): *"In evals where customers want language support that we are training the model for but we don't yet have our own native streaming model for that language — the API interface is complete and your team can start dev work today."* Example: customer asking about Polish streaming → directed to Whisper-Streaming as interim.
-
-**Gotcha:** Default output has no punctuation or capitalization. For voice agent pipelines feeding LLMs, formatting is unnecessary overhead — but for human-readable output, always set `format_turns=true`.
-
----
-
 ## Full Compatibility Matrix
 
 ### Pre-Recorded (Async)
@@ -340,19 +315,19 @@ This is the flagship streaming model and the definitive recommendation for all v
 
 ### Streaming
 
-| Feature | U3 Pro Streaming | Universal-Streaming EN | Universal-Streaming ML | Whisper-Streaming |
-|---|---|---|---|---|
-| API value | `u3-rt-pro` | `universal-streaming-english` | `universal-streaming-multilingual` | `whisper-rt` / `whisper-streaming` |
-| Languages | EN, ES, FR, DE, IT, PT | EN only | EN, ES, DE, FR, PT, IT | 99+ |
-| Price | $0.45/hr | $0.15/hr | $0.15/hr | $0.30/hr |
-| Keyterms | ✅ Included (100 terms) | ✅ (+$0.04/hr, 100 terms) | ✅ (100 terms) | ❌ |
-| General Prompting | ✅ Beta (+$0.05/hr) | ❌ | ❌ | ❌ |
-| Medical Mode | ✅ (+$0.15/hr) | ✅ (EN only) | ✅ (+$0.15/hr) | ❌ |
-| Speaker Diarization | ✅ (+$0.12/hr) | ✅ (+$0.12/hr) | ✅ (+$0.12/hr) | ✅ (+$0.12/hr) |
-| Auto Language Detection | ✅ (built-in) | ❌ | ✅ (built-in) | ✅ (mandatory) |
-| Audio Event Tagging | ✅ (100+ tags) | ❌ | ❌ | ✅ ([Silence], [Music]) |
-| Formatted output | ✅ | ✅ | ✅ (default) | ⚠️ Opt-in via `format_turns=true` |
-| Mid-stream config updates | ✅ | ❌ | ❌ | ❌ |
+| Feature | U3 Pro Streaming | Universal-Streaming EN | Universal-Streaming ML |
+|---|---|---|---|
+| API value | `u3-rt-pro` | `universal-streaming-english` | `universal-streaming-multilingual` |
+| Languages | EN, ES, FR, DE, IT, PT | EN only | EN, ES, DE, FR, PT, IT |
+| Price | $0.45/hr | $0.15/hr | $0.15/hr |
+| Keyterms | ✅ Included (100 terms) | ✅ (+$0.04/hr, 100 terms) | ✅ (100 terms) |
+| General Prompting | ✅ Beta (+$0.05/hr) | ❌ | ❌ |
+| Medical Mode | ✅ (+$0.15/hr) | ✅ (EN only) | ✅ (+$0.15/hr) |
+| Speaker Diarization | ✅ (+$0.12/hr) | ✅ (+$0.12/hr) | ✅ (+$0.12/hr) |
+| Auto Language Detection | ✅ (built-in) | ❌ | ✅ (built-in) |
+| Audio Event Tagging | ✅ (100+ tags) | ❌ | ❌ |
+| Formatted output | ✅ | ✅ | ✅ (default) |
+| Mid-stream config updates | ✅ | ❌ | ❌ |
 
 ---
 
@@ -383,7 +358,6 @@ Derived from customer support conversations, AE/CSM Slack threads, and GTM guida
 The definitive choice for any voice agent, AI phone agent, or conversational AI product. Best entity accuracy, short utterance handling, and native code switching. Keyterms included.
 
 - Language coverage: EN, ES, DE, FR, IT, PT
-- Outside those 6 languages → Whisper-Streaming (interim)
 - Customer examples: Decagon, Bland AI, Phonely, Vapi, Synthflow, Lorikeet
 
 **Common mistake:** Customers default to Universal-Streaming because it's cheaper or was the prior default. Results in losing competitive evals against Deepgram.
@@ -440,7 +414,6 @@ Medical Mode reduces Missed Entity Rate on drug names, conditions, procedures, a
 **Streaming:**
 - Primary 6 languages, voice agents: **Universal-3 Pro Streaming**
 - Primary 6 languages, broader compat: **Universal-Streaming Multilingual**
-- 99+ languages: **Whisper-Streaming** (set `format_turns=true` if output needs to be human-readable)
 
 **Known friction:** Customers are often confused that the new streaming model doesn't support 99 languages. Proactively address in onboarding.
 
@@ -471,10 +444,8 @@ All pre-recorded models support PII redaction (audio and text), content moderati
 What kind of audio?
 │
 ├── Real-time (streaming)
-│   ├── Language in EN/ES/DE/FR/IT/PT?
-│   │   └── YES → Universal-3 Pro Streaming (u3-rt-pro)   ← voice agents, agent assist
-│   └── Language outside those 6?
-│       └── YES → Whisper-Streaming (whisper-rt)           ← 99-language fallback
+│   └── Language in EN/ES/DE/FR/IT/PT?
+│       └── YES → Universal-3 Pro Streaming (u3-rt-pro)   ← voice agents, agent assist
 │
 └── Pre-recorded (async)
     ├── Language in EN/ES/DE/FR/IT/PT?
@@ -504,7 +475,6 @@ What kind of audio?
 | `language_code` set on u3-rt-pro streaming | Silently ignored — language is auto-handled | Remove the parameter; rely on auto-detection |
 | Leaving WebSocket open (streaming) | Billed for full session duration including idle time | Close connection immediately when call ends |
 | Voice agent on Universal-Streaming | Loses accuracy evals vs. Deepgram / competitors | Migrate to Universal-3 Pro Streaming |
-| Whisper-Streaming without `format_turns=true` | No punctuation or capitalization in output | Add `format_turns=true` for human-readable output |
 | `max_speakers_expected` set too high (diarization) | Reduces speaker attribution accuracy | Set to actual expected max, or omit |
 | Language detection on <15 seconds of audio | Detection may fail or return low confidence | Ensure 15+ seconds of spoken audio before relying on detection |
 
@@ -514,9 +484,6 @@ What kind of audio?
 
 **Which model should I use for a voice agent?**
 Universal-3 Pro Streaming (`u3-rt-pro`). It is the only streaming model with the entity accuracy, short utterance handling, and turn detection quality needed to win voice agent evals.
-
-**What streaming model handles 99 languages?**
-Whisper-Streaming (`whisper-rt` on v3). Supports 99+ languages. No keyterms. Add `format_turns=true` for readable output. For the primary 6 languages, Universal-3 Pro Streaming is always preferred.
 
 **Can I use auto_chapters with Universal-3 Pro?**
 No. It silently causes stuck jobs and 500 errors. Use Universal-2 if you need auto_chapters natively (though it's deprecated), or use LLM Gateway to generate chapters from a U3 Pro transcript.
@@ -538,7 +505,7 @@ Universal-3 Pro + Medical Mode. U3 Pro delivers better entity accuracy than SLAM
 Universal-Streaming was the prior-generation model. Universal-3 Pro Streaming delivers significantly higher entity accuracy, better short utterance handling, native prompting (beta), keyterms included, and superior turn detection. All new voice agent customers should use U3 Pro Streaming. Turn detection is also architecturally different (punctuation-based vs. confidence-based), so migration requires code changes.
 
 **Why is the new streaming model limited to 6 languages when Universal-2 supports 99?**
-Universal-3 Pro's architecture delivers state-of-the-art accuracy through deep per-language training. Broader language support is on the roadmap. Use Whisper-Streaming for languages outside the 6.
+Universal-3 Pro's architecture delivers state-of-the-art accuracy through deep per-language training. Broader language support is on the roadmap.
 
 **Which model handles low-quality telephony / 8kHz audio?**
 Universal-3 Pro (streaming or async) handles low-quality 8kHz telephony audio well, but this is not prominently documented. Mention proactively in contact center and phone agent evals. Note: as of early 2026, U3 Pro slightly underperforms Nova-3 on one CallHome telephony benchmark but outperforms on voice agent datasets.
