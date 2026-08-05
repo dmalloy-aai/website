@@ -101,9 +101,11 @@ All features priced per hour of **audio duration** (not session duration, not pe
 
 | Model | Input ($/M tokens) | Output ($/M tokens) |
 |---|---|---|
+| GPT-5.6 | TBD | TBD |
 | GPT-5.2 | $1.75 | $14.00 |
 | GPT-5.1 | $1.25 | $10.00 |
 | GPT-4.1 | $2.00 | $8.00 |
+| Claude 5 Sonnet | TBD | TBD |
 | Claude 4.6 Sonnet | $3.00 | $15.00 |
 | Claude 4.6 Opus | $5.00 | $25.00 |
 
